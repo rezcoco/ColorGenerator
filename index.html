@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Generator</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+            padding: 0;
+        }
+        @font-face {
+            font-family: OverpassLight;
+            src: url(../Overpass/Overpass-Light.ttf);
+        }
+        body {
+            background-color: #1c2431;
+            font-family: 'OverpassLight', sans-serif;
+        }
+        .container {
+            display: grid;
+            margin-top: 15%;
+            justify-content: center;
+        }
+        .header {
+            background-color: white;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, .4);
+            padding: 15px;
+            width: 500px;
+            border-radius: 15px;
+        }
+        span {
+            font-family: 'OverpassLight', sans-serif;
+            text-align: center;
+            color: black;
+            box-shadow: none;
+        }
+        .button {
+            width: 100px;
+            height: 35px;
+            border: none;
+            margin-left: 40%;
+            margin-top: 20px;
+            background-color:  hsl(131, 81%, 63%);
+            color: white;
+            font-weight: 400;
+            border-radius: 25px;
+            outline: none;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, .4);
+        }
+        button:hover, .btn-color button:hover {
+            background-color:  hsl(131, 81%, 73%);
+        }
+        .header-top {
+            background-color:  #181f2a;
+            height: 10vh;
+        }
+        .title {
+            padding: 20px 0;
+            margin: 0 50px;
+            color: white;
+        }
+        .btn-color {
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color:  #181f2a;
+            height: 100%;
+            list-style: none;
+            transform: translateX(350px);
+            transition: .3s ease-in-out;
+            z-index: 99;
+        }
+        .btn-color.open {
+            transform: translateX(0);
+        }
+        .hex:hover, .rgb:hover, .hsl:hover, .convert:hover {
+            color: hsl(131, 81%, 63%);
+        }
+        .hex, .rgb, .hsl, .convert {
+            padding: 15px 0;
+            margin-top: 35px;
+            min-width: 45vh;
+            text-align: center;
+        }
+        .bar-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 15px 50px;
+            z-index: 99;
+            cursor: pointer;
+        }
+        .bar-button:hover {
+            background-color: rgba(255, 255, 255, .3);
+        }
+        .bar {
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            margin: 4px 0;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, .3);
+            transition: all .3s ease-in-out;
+            visibility: hidden;
+        }
+        .overlay.visible {
+            visibility: visible;
+        }
+        input[name=convert]{
+            height: 25px;
+            display: none;
+            outline: none;
+            background-color: rgba(0, 0, 0, .2);
+            border: none;
+            border-radius: 5px;
+            color: black;
+            text-align: center;
+            position: relative;
+            top: -10px;
+        }
+        ul li {
+            padding: 15px 0;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-top">
+        <h3 class="title">Color Generator</h3>
+        <ul class="btn-color">
+            <li class="hex">HEX</li>
+            <li class="rgb">RGB</li>
+            <li class="hsl">HSL</li>
+            <li class="convert">CONVERT</li>
+        </ul>
+        <div class="overlay"></div>
+        <div class="bar-button">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="header">
+            <span class="main">
+                <h2 class="mainTxt">Click to generate a Color</h2>
+                <p class="color">#HexaDecimal</p>
+                <form action="">
+                    <input type="text" name="convert" placeholder="write here...">
+                </form>
+            </span>
+        </div>
+        <button type="submit" class="button">Click</button>
+    </div>
+    <script>
+        const btnHex = document.querySelector('.hex')
+        const btnRgb = document.querySelector('.rgb')
+        const btnHsl = document.querySelector('.hsl')
+        const btnConvert = document.querySelector('.convert')
+        const barBtn = document.querySelector('.bar-button')
+        const btnColor = document.querySelector('.btn-color')
+        const txtConvert = document.querySelector('input[name=convert]')
+        const mainTxt = document.querySelector('.mainTxt')
+        const overlay = document.querySelector('.overlay')
+
+
+        //Header Button
+        btnHex.addEventListener('click', function(){
+            txtConvert.style.display = 'none'
+            color.style.visibility = 'visible'
+            color.textContent = '#HexaDecimal'
+            mainTxt.textContent = 'Click to generate a Color'
+            button.textContent = 'Click'
+            hexadecimal()
+            btnColor.classList.toggle('open')
+            overlay.classList.toggle('visible')
+        })
+        btnRgb.addEventListener('click', function(){
+            txtConvert.style.display = 'none'
+            color.style.visibility = 'visible'
+            mainTxt.textContent = 'Click to generate a Color'
+            color.textContent = 'rgb()'
+            button.textContent = 'Click'
+            rgb()
+            btnColor.classList.toggle('open')
+            overlay.classList.toggle('visible')
+        })
+        btnHsl.addEventListener('click', function(){
+            txtConvert.style.display = 'none'
+            color.style.visibility = 'visible'
+            mainTxt.textContent = 'Click to generate a Color'
+            color.textContent = 'hsl()'
+            button.textContent = 'Click'
+            hsl()
+            btnColor.classList.toggle('open')
+            overlay.classList.toggle('visible')
+        })
+        barBtn.addEventListener('click', function(e){
+            btnColor.classList.toggle('open')
+            overlay.classList.toggle('visible')
+        })
+        btnConvert.addEventListener('click', ()=> {
+            mainTxt.textContent = 'Convert to RGB Color'
+            txtConvert.style.display = 'inline'
+            color.style.visibility = 'hidden'
+            button.textContent = 'Convert'
+            enterKey()
+            cvbtn()
+            btnColor.classList.toggle('open')
+            overlay.classList.toggle('visible')
+        })
+        function enterKey(){
+            window.addEventListener('keydown', function(e){
+            if (13 === e.keyCode) {
+                e.preventDefault()
+                document.body.style.backgroundColor = txtConvert.value
+                txtConvert.value = document.body.style.backgroundColor
+                txtConvert.style.backgroundColor = 'hsl(131, 81%, 53%)'
+            }
+        })
+        }
+        function cvbtn(){
+            button.addEventListener('click', ()=> {
+            document.body.style.backgroundColor = txtConvert.value
+            txtConvert.value = document.body.style.backgroundColor
+            txtConvert.style.backgroundColor = 'hsl(131, 81%, 53%)'
+            })
+        }
+
+        //===>>>
+        const hex = [1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
+        const button = document.querySelector('button[type=submit]')
+        const color = document.querySelector('.color')
+        
+        function randomHex(){
+            return Math.floor(Math.random() * hex.length);
+        }
+        button.addEventListener('click', function(){
+            let hexa = '#'
+            for (let i = 0; i < 6; i++){
+                hexa += hex[randomHex()]
+            }
+            color.textContent = hexa
+            document.body.style.backgroundColor = hexa
+        })
+        //Hex Generator and Button
+        function hexadecimal(){
+            button.addEventListener('click', function(){
+                let hexa = '#'
+                for (let i = 0; i < 6; i++){
+                    hexa += hex[randomHex()]
+                }
+                color.textContent = hexa
+                document.body.style.backgroundColor = hexa
+            })
+        }
+        //=====>>>
+        function rgbGenerator(){
+            x = Math.floor(Math.random()*260)
+            if (x >= 255) {
+                return 255
+            }
+            return x
+        }
+        //RGB color Button and Generator
+        function rgb(){
+            button.addEventListener('click', function valueRgb(){
+                let value = []
+                for (let i = 0; i < 3; i++){
+                    value.push(rgbGenerator())
+                }
+                let rgb = `rgb(${value[0]},${value[1]},${value[2]})`
+                color.textContent = rgb
+                document.body.style.backgroundColor = rgb
+            })
+        }
+        //=====>
+
+        //HSL Generator
+        function randomHue(){
+            return Math.floor(Math.random() * 350)
+        }
+        function randomSl(){
+            return Math.floor(Math.random() * 100)
+        }
+        function hsl(){
+            button.addEventListener('click', function(){
+                let value = []
+
+                for (let i = 0; i <=2; i++){
+                    if (i === 0){
+                        value.push(randomHue())
+                    }
+                    else {
+                        value.push(randomSl())
+                    }
+                }
+                let hsl = `hsl(${value[0]},${value[1]}%,${value[2]}%) `
+                color.textContent = hsl
+                document.body.style.backgroundColor = hsl
+            })
+        }
+        
+
+
+
+    </script>
+</body>
+</html>
