@@ -7,3 +7,6 @@ Can create following colors :
 - HSL
 - And can convert colors above into RGBA
 
+<a href="https://rezcoco.github.io/ColorGenerator/">Preview</a>
+--
+
